@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# development
+timestamp.txt
+
 # next.js
 /.next/
 /out/
@@ -33,3 +36,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+
+# vscode
+.vscode
