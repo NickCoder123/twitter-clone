@@ -1,4 +1,7 @@
+import axios from 'axios';
 import { useState, useCallback } from 'react';
+import { toast } from 'react-hot-toast';
+import { signIn } from 'next-auth/react';
 
 import useLoginModel from "@/hooks/useLoginModel"
 import useRegisterModel from "@/hooks/useRegisterModel";
@@ -23,19 +26,32 @@ const RegisterModel = () => {
     loginModel.onOpen();
   }, [isLoading, registerModel, loginModel]);
 
-  const onSubmit = useCallback(() => {
+  const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true);
 
-      // TODO: ADD REGISTER AND LOG IN
+      await axios.post('/api/register', {
+        email,
+        password,
+        username,
+        name,
+      });
+
+      toast.success("Account created");
+
+      signIn('credentials', {
+        email,
+        password
+      });
 
       registerModel.onClose();
     } catch (error) {
       console.error(error);
+      toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
-  }, [registerModel]);
+  }, [registerModel, email, password, username, name]);
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -59,6 +75,7 @@ const RegisterModel = () => {
       />
       <Input
         placeholder="Password"
+        type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
         disabled={isLoading}

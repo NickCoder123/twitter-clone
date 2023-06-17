@@ -11,6 +11,9 @@
 # development
 timestamp.txt
 
+# env
+.env
+
 # next.js
 /.next/
 /out/
